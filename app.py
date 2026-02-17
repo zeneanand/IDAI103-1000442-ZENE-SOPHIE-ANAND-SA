@@ -5,7 +5,8 @@ import pandas as pd
 
 # --- APP CONFIGURATION ---
 st.set_page_config(page_title="CoachBot AI | NextGen Sports", layout="wide", page_icon="⚽")
-api_key = st.secrets["GEMINI_API_KEY"]# Custom CSS for a professional look
+api_key = st.secrets["GEMINI_API_KEY"]
+# Custom CSS for a professional look
 st.markdown("""
     <style>
     .main { background-color: #f5f7f9; }
