@@ -5,8 +5,7 @@ import pandas as pd
 
 # --- APP CONFIGURATION ---
 st.set_page_config(page_title="CoachBot AI | NextGen Sports", layout="wide", page_icon="⚽")
-
-# Custom CSS for a professional look
+api_key = st.secrets["GEMINI_API_KEY"]# Custom CSS for a professional look
 st.markdown("""
     <style>
     .main { background-color: #f5f7f9; }
@@ -20,10 +19,9 @@ with st.sidebar:
     st.title("Athlete Profile")
     
     # Fetching the API Key securely from Streamlit Secrets
-    try:
-        api_key = st.secrets["GEMINI_API_KEY"]
-    except KeyError:
-        api_key = None
+
+        
+    
         
 
     sport = st.selectbox("Sport", ["Football", "Cricket", "Basketball", "Athletics", "Swimming"])
