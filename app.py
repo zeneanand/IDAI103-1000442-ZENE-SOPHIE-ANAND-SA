@@ -24,7 +24,7 @@ with st.sidebar:
         api_key = st.secrets["GEMINI_API_KEY"]
     except KeyError:
         api_key = None
-        st.error("🔑 AIzaSyBXbX2CJjtrMGphumkBFhqX5xfXFWhd0r8")
+        
 
     sport = st.selectbox("Sport", ["Football", "Cricket", "Basketball", "Athletics", "Swimming"])
     position = st.text_input("Position", placeholder="e.g., Striker, Fast Bowler")
