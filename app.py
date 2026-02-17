@@ -19,7 +19,13 @@ with st.sidebar:
     st.image("https://cdn-icons-png.flaticon.com/512/857/857418.png", width=100)
     st.title("Athlete Profile")
     
-    api_key = st.text_input("Enter Gemini API Key", type="password")
+    # Fetching the API Key securely from Streamlit Secrets
+    try:
+        api_key = st.secrets["GEMINI_API_KEY"]
+    except KeyError:
+        api_key = None
+        st.error("🔑 AIzaSyBXbX2CJjtrMGphumkBFhqX5xfXFWhd0r8")
+
     sport = st.selectbox("Sport", ["Football", "Cricket", "Basketball", "Athletics", "Swimming"])
     position = st.text_input("Position", placeholder="e.g., Striker, Fast Bowler")
     injury = st.text_input("Injury History", placeholder="e.g., Grade 1 Ankle Sprain, None")
@@ -34,7 +40,7 @@ with st.sidebar:
 # --- CORE LOGIC ---
 def generate_coach_advice(user_prompt):
     if not api_key:
-        st.error("Please enter your API Key in the sidebar.")
+        st.error("API Key is missing from secrets. Please configure it to continue.")
         return None
     
     try:
