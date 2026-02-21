@@ -199,3 +199,10 @@ GEMINI_API_KEY = "your-api-key-here"
 
 6. Click **Deploy**.
 
+🌱 Ethical & Social Considerations
+Safety & Health: CoachBot AI is programmed to include disclaimers and prioritize safety, but it explicitly states that AI advice should not replace professional medical clearance, especially regarding severe injuries.
+
+Inclusivity: By removing the financial barrier to personalized sports science, this app promotes inclusive sports excellence for youth in low-income or rural areas.
+
+Data Privacy: The application does not utilize a backend database. All user inputs (injuries, ages, diets) are ephemeral and wiped the moment the browser window is closed.
+
