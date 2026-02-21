@@ -8,7 +8,7 @@ import time
 # ==========================================
 st.set_page_config(page_title="CoachBot AI | NextGen", page_icon="⚡", layout="wide")
 
-# Massive visual upgrade using Custom CSS
+# Visual upgrade using Custom CSS with BLACK text
 st.markdown("""
     <style>
     /* Vibrant Main Background Gradient */
@@ -16,25 +16,29 @@ st.markdown("""
         background: linear-gradient(135deg, #e0f2fe 0%, #f3e8ff 100%);
     }
     
-    /* Deep, rich sidebar styling */
-    [data-testid="stSidebar"] {
-        background-color: #0f172a;
-        color: #f8fafc;
-    }
-    [data-testid="stSidebar"] p, [data-testid="stSidebar"] div, [data-testid="stSidebar"] label {
-        color: #f8fafc !important;
+    /* Make all main app text BLACK */
+    h1, h2, h3, h4, h5, h6, p, span, label {
+        color: black !important;
+        font-family: 'Helvetica Neue', sans-serif;
     }
     
-    /* Energetic Primary Headers */
+    /* Special Header Font */
     h1, h2, h3 {
-        color: #4338ca !important;
         font-family: 'Arial Black', sans-serif;
+    }
+    
+    /* Deep, rich sidebar styling - keeping text white for contrast */
+    [data-testid="stSidebar"] {
+        background-color: #0f172a;
+    }
+    [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3, 
+    [data-testid="stSidebar"] p, [data-testid="stSidebar"] div, [data-testid="stSidebar"] label, [data-testid="stSidebar"] span {
+        color: #f8fafc !important;
     }
     
     /* Awesome Gradient Button */
     .stButton>button {
         background: linear-gradient(90deg, #f97316 0%, #e11d48 100%);
-        color: white;
         border-radius: 30px;
         padding: 12px 28px;
         font-weight: 800;
@@ -43,16 +47,20 @@ st.markdown("""
         box-shadow: 0 4px 15px rgba(225, 29, 72, 0.4);
         transition: all 0.3s ease;
     }
+    .stButton>button * {
+        color: white !important; /* Keep button text white */
+    }
     .stButton>button:hover { 
         transform: translateY(-2px) scale(1.02);
         box-shadow: 0 6px 20px rgba(225, 29, 72, 0.6);
     }
     
-    /* Styled Input Fields with colorful borders */
+    /* Styled Input Fields */
     .stTextInput>div>div>input, .stTextArea>div>div>textarea, .stSelectbox>div>div>div {
         border: 2px solid #8b5cf6 !important;
         border-radius: 10px;
         background-color: white !important;
+        color: black !important;
     }
     
     /* Tab Styling */
@@ -63,15 +71,21 @@ st.markdown("""
         border: 2px solid #cbd5e1;
         border-bottom: none;
     }
+    .stTabs [data-baseweb="tab"] span {
+        color: black !important;
+    }
     .stTabs [aria-selected="true"] {
-        background-color: #4338ca;
+        background-color: #000000;
+        border-color: #000000;
+    }
+    .stTabs [aria-selected="true"] span {
         color: white !important;
-        border-color: #4338ca;
     }
     
     /* Metric Cards */
     [data-testid="stMetricValue"] {
-        color: #db2777 !important;
+        color: black !important;
+        font-weight: bold;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -187,3 +201,4 @@ with tab3:
         "Carbs (g)": [250, 300, 250, 320, 280]
     })
     st.dataframe(macro_data, use_container_width=True, hide_index=True)
+    
