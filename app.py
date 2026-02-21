@@ -4,19 +4,75 @@ import pandas as pd
 import time
 
 # ==========================================
-# 1. PAGE CONFIGURATION & CUSTOM CSS
+# 1. PAGE CONFIGURATION & VIBRANT CSS
 # ==========================================
 st.set_page_config(page_title="CoachBot AI | NextGen", page_icon="⚡", layout="wide")
 
+# Massive visual upgrade using Custom CSS
 st.markdown("""
     <style>
-    .main { background-color: #f8f9fa; }
-    h1 { color: #1e3d59; font-family: 'Helvetica Neue', sans-serif; }
-    .stButton>button {
-        background-color: #ff6e40; color: white; border-radius: 8px;
-        padding: 10px 24px; font-weight: bold; border: none; transition: 0.3s;
+    /* Vibrant Main Background Gradient */
+    .stApp {
+        background: linear-gradient(135deg, #e0f2fe 0%, #f3e8ff 100%);
     }
-    .stButton>button:hover { background-color: #ff521b; transform: scale(1.02); }
+    
+    /* Deep, rich sidebar styling */
+    [data-testid="stSidebar"] {
+        background-color: #0f172a;
+        color: #f8fafc;
+    }
+    [data-testid="stSidebar"] p, [data-testid="stSidebar"] div, [data-testid="stSidebar"] label {
+        color: #f8fafc !important;
+    }
+    
+    /* Energetic Primary Headers */
+    h1, h2, h3 {
+        color: #4338ca !important;
+        font-family: 'Arial Black', sans-serif;
+    }
+    
+    /* Awesome Gradient Button */
+    .stButton>button {
+        background: linear-gradient(90deg, #f97316 0%, #e11d48 100%);
+        color: white;
+        border-radius: 30px;
+        padding: 12px 28px;
+        font-weight: 800;
+        font-size: 18px;
+        border: none;
+        box-shadow: 0 4px 15px rgba(225, 29, 72, 0.4);
+        transition: all 0.3s ease;
+    }
+    .stButton>button:hover { 
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 6px 20px rgba(225, 29, 72, 0.6);
+    }
+    
+    /* Styled Input Fields with colorful borders */
+    .stTextInput>div>div>input, .stTextArea>div>div>textarea, .stSelectbox>div>div>div {
+        border: 2px solid #8b5cf6 !important;
+        border-radius: 10px;
+        background-color: white !important;
+    }
+    
+    /* Tab Styling */
+    .stTabs [data-baseweb="tab"] {
+        background-color: white;
+        border-radius: 8px 8px 0 0;
+        margin-right: 5px;
+        border: 2px solid #cbd5e1;
+        border-bottom: none;
+    }
+    .stTabs [aria-selected="true"] {
+        background-color: #4338ca;
+        color: white !important;
+        border-color: #4338ca;
+    }
+    
+    /* Metric Cards */
+    [data-testid="stMetricValue"] {
+        color: #db2777 !important;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -37,7 +93,6 @@ st.sidebar.header("🔐 Authentication")
 try:
     api_key = st.secrets["GEMINI_API_KEY"]
     genai.configure(api_key=api_key)
-    # Configure the specific model required by the assignment
     model = genai.GenerativeModel('gemini-1.5-pro')
     st.sidebar.success("✅ API Key Loaded Securely")
 except KeyError:
@@ -60,17 +115,17 @@ with tab1:
     with st.container():
         c1, c2, c3 = st.columns(3)
         with c1:
-            sport = st.selectbox("Primary Sport", ["Football", "Cricket", "Basketball", "Athletics", "Tennis"])
-            position = st.text_input("Position/Role", "Midfielder")
+            sport = st.selectbox("Primary Sport 🏀", ["Football", "Cricket", "Basketball", "Athletics", "Tennis"])
+            position = st.text_input("Position/Role 🎯", "Midfielder")
         with c2:
-            age = st.number_input("Athlete Age", min_value=8, max_value=25, value=16)
-            intensity = st.slider("Target Intensity (1-10)", 1, 10, 6)
+            age = st.number_input("Athlete Age 🎂", min_value=8, max_value=25, value=16)
+            intensity = st.slider("Target Intensity 🔥 (1-10)", 1, 10, 6)
         with c3:
-            goal = st.selectbox("Primary Objective", ["Stamina", "Injury Rehab", "Tactical IQ", "Explosive Power"])
-            diet = st.selectbox("Dietary Needs", ["Standard", "Vegetarian", "Vegan", "High-Protein"])
+            goal = st.selectbox("Primary Objective 🏆", ["Stamina", "Injury Rehab", "Tactical IQ", "Explosive Power"])
+            diet = st.selectbox("Dietary Needs 🥗", ["Standard", "Vegetarian", "Vegan", "High-Protein"])
 
     # PROMINENT PROBLEM/INJURY BOX
-    st.warning("⚠️ Current Problem or Injury Context")
+    st.error("⚠️ Current Problem or Injury Context")
     problem_injury = st.text_area(
         "Describe any current problems, injuries, or pain points you have:", 
         placeholder="e.g., 'Recovering from a torn ACL', 'Lower back pain after running', or 'Trouble building stamina late in the game'."
@@ -80,7 +135,7 @@ with tab1:
 with tab2:
     st.subheader("🧠 Request AI Coaching")
     
-    feature = st.selectbox("Select Coaching Module:", [
+    feature = st.selectbox("Select Coaching Module 🛠️:", [
         "1. Full-Body Workout Plan", "2. Safe Recovery Training Schedule", 
         "3. Tactical Coaching Tips", "4. Nutrition & Meal Guide", 
         "5. Warm-up & Cooldown Routine", "6. Pre-Match Mental Visualization", 
@@ -92,7 +147,7 @@ with tab2:
         if not api_key:
             st.error("Cannot generate plan: API key is missing from secrets.")
         elif not problem_injury.strip():
-            st.error("Please enter your current problem or injury in the 'Athlete Setup' tab so we can ensure safe advice.")
+            st.warning("Please enter your current problem or injury in the 'Athlete Setup' tab so we can ensure safe advice.")
         else:
             system_prompt = "You are CoachBot AI, an expert, encouraging youth sports coach. Prioritize safety and injury prevention."
             user_context = f"Athlete: {age}yo {sport} {position}. Problem/Injury: {problem_injury}. Goal: {goal}. Diet: {diet}. Intensity: {intensity}/10."
@@ -106,7 +161,7 @@ with tab2:
                         generation_config=genai.types.GenerationConfig(temperature=temperature, top_p=top_p)
                     )
                     
-                    st.success("Plan Generated Successfully!")
+                    st.success("🎉 Plan Generated Successfully!")
                     with st.container(border=True):
                         st.markdown(response.text)
                     
@@ -125,6 +180,7 @@ with tab3:
     col_m2.metric(label="Hydration Level", value="Optimal", delta="Maintained", delta_color="normal")
     col_m3.metric(label="Injury Risk", value="Low", delta="-10%", delta_color="inverse")
     
+    st.markdown("### Weekly Macro Tracker 🍎")
     macro_data = pd.DataFrame({
         "Day": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
         "Protein (g)": [120, 130, 120, 140, 125],
