@@ -48,25 +48,47 @@ st.markdown("""
         box-shadow: 0 6px 20px rgba(225, 29, 72, 0.6);
     }
     
-    /* Styled Input Fields */
-    .stTextInput>div>div>input, .stTextArea>div>div>textarea, .stSelectbox>div>div>div {
+    /* Styled Text Inputs and Text Areas */
+    .stTextInput>div>div>input, .stTextArea>div>div>textarea {
         border: 2px solid #8b5cf6 !important;
         border-radius: 10px;
         background-color: white !important;
-        color: black !important;
+        color: black !important; /* Black text for normal inputs */
     }
     
     /* =========================================
-       TAB STYLING - THE ONLY WHITE TEXT
+       THE 10 COACHING MODULES (WHITE TEXT)
+       ========================================= */
+    /* Target the selectbox wrapper to give it a dark background and white text */
+    .stSelectbox>div>div>div {
+        border: 2px solid #8b5cf6 !important;
+        border-radius: 10px;
+        background-color: #4338ca !important; /* Deep indigo background */
+        color: white !important; 
+    }
+    /* Target the text inside the collapsed selectbox */
+    .stSelectbox>div>div>div div, .stSelectbox>div>div>div span {
+        color: white !important;
+    }
+    /* Target the expanded dropdown menu and its list items */
+    div[data-baseweb="popover"] ul {
+        background-color: #4338ca !important; 
+    }
+    div[data-baseweb="popover"] ul li, div[data-baseweb="popover"] ul li span, div[data-baseweb="popover"] ul li div {
+        color: white !important; /* The 10 items will be white */
+    }
+    
+    /* =========================================
+       TAB STYLING - WHITE TEXT
        ========================================= */
     .stTabs [data-baseweb="tab"] {
-        background-color: #4338ca; /* Dark Indigo background so white text is visible */
+        background-color: #4338ca; 
         border-radius: 8px 8px 0 0;
         margin-right: 5px;
         border: 2px solid #cbd5e1;
         border-bottom: none;
     }
-    /* Force the tab text to be the ONLY white text */
+    /* Force the tab text to be white */
     .stTabs [data-baseweb="tab"] span, .stTabs [data-baseweb="tab"] p {
         color: white !important; 
     }
@@ -103,7 +125,7 @@ st.sidebar.header("🔐 Authentication")
 try:
     api_key = st.secrets["GEMINI_API_KEY"]
     genai.configure(api_key=api_key)
-    # Updated to your requested model
+    # Using your requested model
     model = genai.GenerativeModel('gemini-3-flash-preview')
     st.sidebar.success("✅ API Key Loaded Securely")
 except KeyError:
@@ -117,7 +139,7 @@ top_p = st.sidebar.slider("Focus (Top P)", 0.0, 1.0, 0.9, 0.1)
 # ==========================================
 # 3. MAIN DASHBOARD UI (TABS)
 # ==========================================
-# These tab labels will now be the strictly targeted white text
+# These tab labels remain white
 tab1, tab2, tab3 = st.tabs(["📋 Athlete Setup", "🏋️‍♂️ Generate Plan", "📊 Analytics & Diet"])
 
 # --- TAB 1: ATHLETE SETUP ---
@@ -127,14 +149,17 @@ with tab1:
     with st.container():
         c1, c2, c3 = st.columns(3)
         with c1:
-            sport = st.selectbox("Primary Sport 🏀", ["Football", "Cricket", "Basketball", "Athletics", "Tennis"])
-            position = st.text_input("Position/Role 🎯", "Midfielder")
+            # Text input for free-form typing
+            sport = st.text_input("Primary Sport 🏀", placeholder="e.g., Football, Swimming, Fencing")
+            position = st.text_input("Position/Role 🎯", placeholder="e.g., Midfielder, Sprinter")
         with c2:
             age = st.number_input("Athlete Age 🎂", min_value=8, max_value=25, value=16)
             intensity = st.slider("Target Intensity 🔥 (1-10)", 1, 10, 6)
         with c3:
-            goal = st.selectbox("Primary Objective 🏆", ["Stamina", "Injury Rehab", "Tactical IQ", "Explosive Power"])
-            diet = st.selectbox("Dietary Needs 🥗", ["Standard", "Vegetarian", "Vegan", "High-Protein"])
+            # Text input for free-form typing
+            goal = st.text_input("Primary Objective 🏆", placeholder="e.g., Build Stamina, Improve Agility")
+            # Text input for free-form typing
+            diet = st.text_input("Dietary Needs 🥗", placeholder="e.g., Vegan, Gluten-Free, No restrictions")
 
     # PROMINENT PROBLEM/INJURY BOX
     st.error("⚠️ Current Problem or Injury Context")
@@ -147,6 +172,7 @@ with tab1:
 with tab2:
     st.subheader("🧠 Request AI Coaching")
     
+    # The text inside this selectbox will now be white
     feature = st.selectbox("Select Coaching Module 🛠️:", [
         "1. Full-Body Workout Plan", "2. Safe Recovery Training Schedule", 
         "3. Tactical Coaching Tips", "4. Nutrition & Meal Guide", 
@@ -156,8 +182,11 @@ with tab2:
     ])
 
     if st.button("🚀 Generate My Personalized Plan"):
+        # Added quick validation to ensure they didn't leave the new text boxes entirely blank
         if not api_key:
             st.error("Cannot generate plan: API key is missing from secrets.")
+        elif not sport.strip() or not goal.strip() or not diet.strip():
+            st.warning("Please fill out your Sport, Objective, and Dietary Needs in the Athlete Setup tab.")
         elif not problem_injury.strip():
             st.warning("Please enter your current problem or injury in the 'Athlete Setup' tab so we can ensure safe advice.")
         else:
