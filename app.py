@@ -8,7 +8,7 @@ import time
 # ==========================================
 st.set_page_config(page_title="CoachBot AI | NextGen", page_icon="⚡", layout="wide")
 
-# Visual upgrade using Custom CSS with BLACK text
+# Visual upgrade using Custom CSS
 st.markdown("""
     <style>
     /* Vibrant Main Background Gradient */
@@ -16,8 +16,8 @@ st.markdown("""
         background: linear-gradient(135deg, #e0f2fe 0%, #f3e8ff 100%);
     }
     
-    /* Make all main app text BLACK */
-    h1, h2, h3, h4, h5, h6, p, span, label {
+    /* Make ALL main app text, sidebar text, and button text BLACK */
+    h1, h2, h3, h4, h5, h6, p, span, label, li, div {
         color: black !important;
         font-family: 'Helvetica Neue', sans-serif;
     }
@@ -27,13 +27,9 @@ st.markdown("""
         font-family: 'Arial Black', sans-serif;
     }
     
-    /* Deep, rich sidebar styling - keeping text white for contrast */
+    /* Lighten the sidebar so the black text is clearly visible */
     [data-testid="stSidebar"] {
-        background-color: #0f172a;
-    }
-    [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3, 
-    [data-testid="stSidebar"] p, [data-testid="stSidebar"] div, [data-testid="stSidebar"] label, [data-testid="stSidebar"] span {
-        color: #f8fafc !important;
+        background-color: #e2e8f0 !important; 
     }
     
     /* Awesome Gradient Button */
@@ -46,9 +42,6 @@ st.markdown("""
         border: none;
         box-shadow: 0 4px 15px rgba(225, 29, 72, 0.4);
         transition: all 0.3s ease;
-    }
-    .stButton>button * {
-        color: white !important; /* Keep button text white */
     }
     .stButton>button:hover { 
         transform: translateY(-2px) scale(1.02);
@@ -63,28 +56,31 @@ st.markdown("""
         color: black !important;
     }
     
-    /* Tab Styling */
+    /* =========================================
+       TAB STYLING - THE ONLY WHITE TEXT
+       ========================================= */
     .stTabs [data-baseweb="tab"] {
-        background-color: white;
+        background-color: #4338ca; /* Dark Indigo background so white text is visible */
         border-radius: 8px 8px 0 0;
         margin-right: 5px;
         border: 2px solid #cbd5e1;
         border-bottom: none;
     }
-    .stTabs [data-baseweb="tab"] span {
-        color: black !important;
+    /* Force the tab text to be the ONLY white text */
+    .stTabs [data-baseweb="tab"] span, .stTabs [data-baseweb="tab"] p {
+        color: white !important; 
     }
+    
     .stTabs [aria-selected="true"] {
         background-color: #000000;
         border-color: #000000;
     }
-    .stTabs [aria-selected="true"] span {
-        color: white !important;
+    .stTabs [aria-selected="true"] span, .stTabs [aria-selected="true"] p {
+        color: white !important; 
     }
     
     /* Metric Cards */
     [data-testid="stMetricValue"] {
-        color: black !important;
         font-weight: bold;
     }
     </style>
@@ -107,7 +103,8 @@ st.sidebar.header("🔐 Authentication")
 try:
     api_key = st.secrets["GEMINI_API_KEY"]
     genai.configure(api_key=api_key)
-    model = genai.GenerativeModel('gemini-1.5-pro')
+    # Updated to your requested model
+    model = genai.GenerativeModel('gemini-3-flash-preview')
     st.sidebar.success("✅ API Key Loaded Securely")
 except KeyError:
     st.sidebar.error("❌ API Key missing! Please configure Streamlit Secrets.")
@@ -120,6 +117,7 @@ top_p = st.sidebar.slider("Focus (Top P)", 0.0, 1.0, 0.9, 0.1)
 # ==========================================
 # 3. MAIN DASHBOARD UI (TABS)
 # ==========================================
+# These tab labels will now be the strictly targeted white text
 tab1, tab2, tab3 = st.tabs(["📋 Athlete Setup", "🏋️‍♂️ Generate Plan", "📊 Analytics & Diet"])
 
 # --- TAB 1: ATHLETE SETUP ---
@@ -191,8 +189,8 @@ with tab3:
     st.subheader("📊 Athlete Dashboard Trackers")
     col_m1, col_m2, col_m3 = st.columns(3)
     col_m1.metric(label="Readiness Score", value="85%", delta="5%")
-    col_m2.metric(label="Hydration Level", value="Optimal", delta="Maintained", delta_color="normal")
-    col_m3.metric(label="Injury Risk", value="Low", delta="-10%", delta_color="inverse")
+    col_m2.metric(label="Hydration Level", value="Optimal", delta="Maintained")
+    col_m3.metric(label="Injury Risk", value="Low", delta="-10%")
     
     st.markdown("### Weekly Macro Tracker 🍎")
     macro_data = pd.DataFrame({
@@ -201,4 +199,3 @@ with tab3:
         "Carbs (g)": [250, 300, 250, 320, 280]
     })
     st.dataframe(macro_data, use_container_width=True, hide_index=True)
-    
