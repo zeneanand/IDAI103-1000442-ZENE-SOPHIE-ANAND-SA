@@ -139,7 +139,6 @@ top_p = st.sidebar.slider("Focus (Top P)", 0.0, 1.0, 0.9, 0.1)
 # ==========================================
 # 3. MAIN DASHBOARD UI (TABS)
 # ==========================================
-# These tab labels remain white
 tab1, tab2, tab3 = st.tabs(["📋 Athlete Setup", "🏋️‍♂️ Generate Plan", "📊 Analytics & Diet"])
 
 # --- TAB 1: ATHLETE SETUP ---
@@ -149,16 +148,16 @@ with tab1:
     with st.container():
         c1, c2, c3 = st.columns(3)
         with c1:
-            # Text input for free-form typing
-            sport = st.text_input("Primary Sport 🏀", placeholder="e.g., Football, Swimming, Fencing")
+            sport = st.text_input("Primary Sport 🏀", placeholder="e.g., Football, Swimming")
             position = st.text_input("Position/Role 🎯", placeholder="e.g., Midfielder, Sprinter")
         with c2:
             age = st.number_input("Athlete Age 🎂", min_value=8, max_value=25, value=16)
             intensity = st.slider("Target Intensity 🔥 (1-10)", 1, 10, 6)
+            # New field added here!
+            training_pref = st.text_input("Training Preference 🏋️", placeholder="e.g., Bodyweight only, High-intensity, Outdoors")
         with c3:
-            # Text input for free-form typing
-            goal = st.text_input("Primary Objective 🏆", placeholder="e.g., Build Stamina, Improve Agility")
-            # Text input for free-form typing
+            # Label changed here!
+            goal = st.text_input("Desired Goal 🏆", placeholder="e.g., Build Stamina, Post-injury rehab")
             diet = st.text_input("Dietary Needs 🥗", placeholder="e.g., Vegan, Gluten-Free, No restrictions")
 
     # PROMINENT PROBLEM/INJURY BOX
@@ -172,7 +171,7 @@ with tab1:
 with tab2:
     st.subheader("🧠 Request AI Coaching")
     
-    # The text inside this selectbox will now be white
+    # The text inside this selectbox is white based on the CSS
     feature = st.selectbox("Select Coaching Module 🛠️:", [
         "1. Full-Body Workout Plan", "2. Safe Recovery Training Schedule", 
         "3. Tactical Coaching Tips", "4. Nutrition & Meal Guide", 
@@ -182,16 +181,17 @@ with tab2:
     ])
 
     if st.button("🚀 Generate My Personalized Plan"):
-        # Added quick validation to ensure they didn't leave the new text boxes entirely blank
+        # Validation updated to include the new training_pref field
         if not api_key:
             st.error("Cannot generate plan: API key is missing from secrets.")
-        elif not sport.strip() or not goal.strip() or not diet.strip():
-            st.warning("Please fill out your Sport, Objective, and Dietary Needs in the Athlete Setup tab.")
+        elif not sport.strip() or not goal.strip() or not diet.strip() or not training_pref.strip():
+            st.warning("Please fill out your Sport, Training Preference, Desired Goal, and Dietary Needs in the Athlete Setup tab.")
         elif not problem_injury.strip():
             st.warning("Please enter your current problem or injury in the 'Athlete Setup' tab so we can ensure safe advice.")
         else:
             system_prompt = "You are CoachBot AI, an expert, encouraging youth sports coach. Prioritize safety and injury prevention."
-            user_context = f"Athlete: {age}yo {sport} {position}. Problem/Injury: {problem_injury}. Goal: {goal}. Diet: {diet}. Intensity: {intensity}/10."
+            # user_context updated to feed the new training preference to the AI!
+            user_context = f"Athlete: {age}yo {sport} {position}. Problem/Injury: {problem_injury}. Goal: {goal}. Diet: {diet}. Intensity: {intensity}/10. Training Style Preference: {training_pref}."
             task = f"Task: {feature}. Use clear markdown formatting, emojis, and bullet points."
             
             with st.spinner(f"CoachBot is designing your {feature.lower()}..."):
