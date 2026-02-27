@@ -31,6 +31,20 @@ st.markdown("""
     [data-testid="stSidebar"] {
         background-color: #e2e8f0 !important; 
     }
+
+    /* =========================================
+       SIDEBAR TOGGLE ARROWS (<< / >>)
+       ========================================= */
+    [data-testid="stSidebarCollapseButton"] svg, 
+    [data-testid="collapsedControl"] svg {
+        color: #4338ca !important; /* Bold Indigo so it stands out */
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+    [data-testid="stSidebarCollapseButton"]:hover svg, 
+    [data-testid="collapsedControl"]:hover svg {
+        color: #e11d48 !important; /* Hover effect */
+    }
     
     /* Awesome Gradient Button */
     .stButton>button {
@@ -59,23 +73,20 @@ st.markdown("""
     /* =========================================
        SELECTBOX MENUS (WHITE TEXT & INDIGO BG)
        ========================================= */
-    /* Target the selectbox wrapper to give it a dark background and white text */
     .stSelectbox>div>div>div {
         border: 2px solid #8b5cf6 !important;
         border-radius: 10px;
-        background-color: #4338ca !important; /* Deep indigo background */
+        background-color: #4338ca !important; 
         color: white !important; 
     }
-    /* Target the text inside the collapsed selectbox */
     .stSelectbox>div>div>div div, .stSelectbox>div>div>div span {
         color: white !important;
     }
-    /* Target the expanded dropdown menu and its list items */
     div[data-baseweb="popover"] ul {
         background-color: #4338ca !important; 
     }
     div[data-baseweb="popover"] ul li, div[data-baseweb="popover"] ul li span, div[data-baseweb="popover"] ul li div {
-        color: white !important; /* The dropdown items will be white */
+        color: white !important; 
     }
     
     /* =========================================
@@ -88,11 +99,9 @@ st.markdown("""
         border: 2px solid #cbd5e1;
         border-bottom: none;
     }
-    /* Force the tab text to be white */
     .stTabs [data-baseweb="tab"] span, .stTabs [data-baseweb="tab"] p {
         color: white !important; 
     }
-    
     .stTabs [aria-selected="true"] {
         background-color: #000000;
         border-color: #000000;
@@ -121,7 +130,6 @@ with col_title:
 st.sidebar.image("https://cdn-icons-png.flaticon.com/512/2112/2112281.png", width=150)
 st.sidebar.header("🔐 Authentication")
 
-# Securely load API key from Streamlit Secrets
 try:
     api_key = st.secrets["GEMINI_API_KEY"]
     genai.configure(api_key=api_key)
@@ -160,7 +168,6 @@ with tab1:
             goal = st.text_input("Desired Goal 🏆", placeholder="e.g., Build Stamina, Improve passing accuracy")
             diet = st.text_input("Dietary Needs 🥗", placeholder="e.g., Vegan, Gluten-Free, No restrictions")
 
-    # PROMINENT PROBLEM/INJURY BOX
     st.error("⚠️ Current Problem or Injury Context")
     problem_injury = st.text_area(
         "Describe any current problems, injuries, or pain points you have:", 
@@ -171,7 +178,6 @@ with tab1:
 with tab2:
     st.subheader("🧠 Request AI Coaching")
     
-    # Updated the dropdown list to include the exact required prompts
     feature = st.selectbox("Select Coaching Module 🛠️:", [
         "1. Generate a full-body workout plan for a [position] in [sport].",
         "2. Create a safe recovery training schedule for an athlete with [injury].",
@@ -186,7 +192,6 @@ with tab2:
     ])
 
     if st.button("🚀 Generate My Personalized Plan"):
-        # Validation
         if not api_key:
             st.error("Cannot generate plan: API key is missing from secrets.")
         elif not goal.strip() or not diet.strip() or not training_pref.strip():
@@ -194,7 +199,6 @@ with tab2:
         elif not problem_injury.strip():
             st.warning("Please enter your current problem or injury in the 'Athlete Setup' tab so we can ensure safe advice.")
         else:
-            # Dynamic Prompt Formatting: Replacing brackets with actual user inputs
             if feature.startswith("1."):
                 task_instruction = f"Generate a full-body workout plan for a {position} in {sport}."
             elif feature.startswith("2."):
@@ -210,13 +214,11 @@ with tab2:
 
             system_prompt = "You are the NextGen Sports Lab AI, an expert, encouraging youth sports coach. Prioritize safety and injury prevention."
             user_context = f"Athlete: {age}yo {sport} {position}. Problem/Injury: {problem_injury}. Goal: {goal}. Diet: {diet}. Intensity: {intensity}/10. Training Style Preference: {training_pref}."
-            
-            # Combine everything for the AI
             final_prompt = f"Task: {task_instruction}. Use clear markdown formatting, emojis, and bullet points."
             
             with st.spinner("NextGen Sports Lab is designing your personalized plan..."):
                 try:
-                    time.sleep(1) # Rate limit protection
+                    time.sleep(1) 
                     response = model.generate_content(
                         f"{system_prompt}\n\n{user_context}\n\n{final_prompt}",
                         generation_config=genai.types.GenerationConfig(temperature=temperature, top_p=top_p)
