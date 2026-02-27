@@ -57,7 +57,7 @@ st.markdown("""
     }
     
     /* =========================================
-       THE 10 COACHING MODULES (WHITE TEXT)
+       SELECTBOX MENUS (WHITE TEXT & INDIGO BG)
        ========================================= */
     /* Target the selectbox wrapper to give it a dark background and white text */
     .stSelectbox>div>div>div {
@@ -75,7 +75,7 @@ st.markdown("""
         background-color: #4338ca !important; 
     }
     div[data-baseweb="popover"] ul li, div[data-baseweb="popover"] ul li span, div[data-baseweb="popover"] ul li div {
-        color: white !important; /* The 10 items will be white */
+        color: white !important; /* The dropdown items will be white */
     }
     
     /* =========================================
@@ -148,15 +148,17 @@ with tab1:
     with st.container():
         c1, c2, c3 = st.columns(3)
         with c1:
-            sport = st.text_input("Primary Sport 🏀", placeholder="e.g., Football, Swimming")
+            # Changed Primary Sport back to a selectbox with a comprehensive list
+            sport = st.selectbox("Primary Sport 🏀", [
+                "Football", "Cricket", "Basketball", "Athletics", 
+                "Tennis", "Swimming", "Gymnastics", "Rugby", "Hockey", "Other"
+            ])
             position = st.text_input("Position/Role 🎯", placeholder="e.g., Midfielder, Sprinter")
         with c2:
             age = st.number_input("Athlete Age 🎂", min_value=8, max_value=25, value=16)
             intensity = st.slider("Target Intensity 🔥 (1-10)", 1, 10, 6)
-            # New field added here!
-            training_pref = st.text_input("Training Preference 🏋️", placeholder="e.g., Bodyweight only, High-intensity, Outdoors")
+            training_pref = st.text_input("Training Preference 🏋️", placeholder="e.g., Bodyweight only, High-intensity")
         with c3:
-            # Label changed here!
             goal = st.text_input("Desired Goal 🏆", placeholder="e.g., Build Stamina, Post-injury rehab")
             diet = st.text_input("Dietary Needs 🥗", placeholder="e.g., Vegan, Gluten-Free, No restrictions")
 
@@ -181,16 +183,15 @@ with tab2:
     ])
 
     if st.button("🚀 Generate My Personalized Plan"):
-        # Validation updated to include the new training_pref field
+        # Validation
         if not api_key:
             st.error("Cannot generate plan: API key is missing from secrets.")
-        elif not sport.strip() or not goal.strip() or not diet.strip() or not training_pref.strip():
-            st.warning("Please fill out your Sport, Training Preference, Desired Goal, and Dietary Needs in the Athlete Setup tab.")
+        elif not goal.strip() or not diet.strip() or not training_pref.strip():
+            st.warning("Please fill out your Training Preference, Desired Goal, and Dietary Needs in the Athlete Setup tab.")
         elif not problem_injury.strip():
             st.warning("Please enter your current problem or injury in the 'Athlete Setup' tab so we can ensure safe advice.")
         else:
             system_prompt = "You are CoachBot AI, an expert, encouraging youth sports coach. Prioritize safety and injury prevention."
-            # user_context updated to feed the new training preference to the AI!
             user_context = f"Athlete: {age}yo {sport} {position}. Problem/Injury: {problem_injury}. Goal: {goal}. Diet: {diet}. Intensity: {intensity}/10. Training Style Preference: {training_pref}."
             task = f"Task: {feature}. Use clear markdown formatting, emojis, and bullet points."
             
@@ -228,3 +229,4 @@ with tab3:
         "Carbs (g)": [250, 300, 250, 320, 280]
     })
     st.dataframe(macro_data, use_container_width=True, hide_index=True)
+    
