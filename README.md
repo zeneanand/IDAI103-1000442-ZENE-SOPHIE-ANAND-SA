@@ -1,17 +1,12 @@
 
-# ⚡ CoachBot AI — AI-Powered Smart Fitness Assistant
+# ⚡ NextGen Sports Lab — AI-Powered Smart Fitness Assistant
 
-**Student Name:** [ZENE SOPHIE ANAND]
-
-**Student ID:** [1000442]
-
-**Course:** Artificial Intelligence - Generative AI
-
-**School:** [ASPEE NUTAN ACADEMY ]
-
-**Assessment Type:** Summative Assessment (Individual)
-
-**Project Title:** Building AI-Powered Web Applications for Real-World Solutions
+**Student Name:** ZENE SOPHIE ANAND  
+**Student ID:** 1000442  
+**Course:** Artificial Intelligence - Generative AI  
+**School:** ASPEE NUTAN ACADEMY  
+**Assessment Type:** Summative Assessment (Individual)  
+**Project Title:** Building AI-Powered Web Applications for Real-World Solutions  
 
 ---
 
@@ -26,9 +21,9 @@
 
 ## 📋 Project Overview
 
-**CoachBot AI** is a generative AI-powered web assistant built using **Python**, **Streamlit**, and the **Google Gemini 1.5 Pro API**. Designed for NextGen Sports Lab, it acts as a virtual personal coach providing hyper-personalized, safe, and tactical fitness training for youth athletes.
+**NextGen Sports Lab Virtual Coach** is a generative AI-powered web assistant built using **Python**, **Streamlit**, and the **Google Gemini 3 Flash Preview API**. Designed to act as a virtual personal coach, it provides hyper-personalized, safe, and tactical fitness training for youth athletes.
 
-By analyzing specific user inputs—including sport, precise playing position, age, and critical injury history—CoachBot generates tailored workout plans, recovery schedules, nutritional guides, and tactical advice. This project demonstrates the complete deployment of a generative AI solution, moving from prompt engineering and hyperparameter tuning to a fully responsive, visually engaging cloud-deployed web application.
+By analyzing specific user inputs—including sport, precise playing position, age, training preferences, and critical injury history—the app generates tailored workout plans, recovery schedules, nutritional guides, and tactical advice. This project demonstrates the complete deployment of a generative AI solution, moving from prompt engineering and hyperparameter tuning to a fully responsive, visually engaging cloud-deployed web application.
 
 ---
 
@@ -37,17 +32,17 @@ By analyzing specific user inputs—including sport, precise playing position, a
 Many aspiring youth athletes, especially in under-resourced regions or the early stages of their training, lack access to professional coaches or tailored fitness routines. Traditional fitness apps often provide:
 
 * Generic, "one-size-fits-all" workout plans.
-* Advice that ignores specific positional demands (e.g., Goalkeeper vs. Striker).
+* Advice that ignores specific positional demands (e.g., Goalkeeper vs. Striker) or personal training preferences.
 * Regimens that fail to account for past injuries, leading to unsafe training environments.
 
-**CoachBot AI** bridges this gap by democratizing access to elite-level sports science, ensuring young athletes train safely, efficiently, and tactically based on their unique physical profiles.
+**NextGen Sports Lab** bridges this gap by democratizing access to elite-level sports science, ensuring young athletes train safely, efficiently, and tactically based on their unique physical profiles.
 
 ---
 
 ## 🎯 Project Objectives
 
-* Integrate the **Gemini 1.5 Pro API** to process real-time user data and generate personalized outputs.
-* Design **10 diverse, user-focused prompt features** (e.g., tactical tips, recovery, nutrition).
+* Integrate the **Gemini Generative API** to process real-time user data and generate personalized outputs.
+* Design **10 diverse, user-focused prompt features** (e.g., tactical tips, recovery, nutrition) tailored to specific user needs.
 * Implement robust **Hyperparameter Tuning** (Temperature and Top-P) to balance AI creativity with safety and accuracy.
 * Build a modular, visually appealing **Streamlit web application** using custom CSS and DataFrames.
 * Deploy the completed project via **GitHub** and **Streamlit Cloud** for real-world usability.
@@ -58,8 +53,8 @@ Many aspiring youth athletes, especially in under-resourced regions or the early
 
 ### 🛒 Core Functionality
 
-* **Dynamic Athlete Profiling:** Captures sport, position, age, dietary needs, intensity levels, and crucial injury context.
-* **10 Specialized Coaching Modules:** From "Full-Body Workouts" to "Positional Decision-Making Drills" and "Pre-Match Mental Visualization."
+* **Dynamic Athlete Profiling:** Captures sport, position, age, dietary needs, intensity levels, training preferences, desired goals, and crucial injury context.
+* **10 Specialized Coaching Modules:** Ranges from "Full-Body Workouts" to "Positional Decision-Making Drills" and "Pre-Match Mental Visualization."
 * **Safety-First AI Guardrails:** System prompts force the AI to prioritize injury prevention and adjust all routines around user-reported pain points.
 * **Adjustable AI Brain Tuning:** Sidebar sliders allow users (and assessors) to tweak Model Temperature and Top-P in real-time.
 
@@ -75,7 +70,7 @@ Many aspiring youth athletes, especially in under-resourced regions or the early
 
 * **Vibrant CSS Theme:** A modern gradient background (`#e0f2fe` to `#f3e8ff`) giving the app an energetic, premium fitness feel.
 * **High-Contrast Typography:** Deep black text for readability, with strictly targeted white text for the navigation tabs and dropdown menus against an Indigo (`#4338ca`) background.
-* **Hover Animations:** Custom CSS buttons with gradient fills, shadow-casting, and scale-on-hover effects to create a highly tactile user experience.
+* **Hover Animations:** Custom CSS buttons and custom sidebar toggle arrows with gradient fills, shadow-casting, and scale-on-hover effects to create a highly tactile user experience.
 * **Emoji Integration:** Strategic use of emojis to guide the user's eye and maintain an encouraging, youth-friendly interface.
 
 ---
@@ -86,29 +81,29 @@ Many aspiring youth athletes, especially in under-resourced regions or the early
 
 * **Python 3.x** — Core application logic and API handling.
 * **Streamlit** — Interactive web interface, tab routing, and UI components.
-* **Google Gemini API (`google-generativeai`)** — The generative AI reasoning engine (Gemini 1.5 Pro).
+* **Google Gemini API (`google-generativeai`)** — The generative AI reasoning engine (Gemini 3 Flash Preview).
 * **Pandas** — Structuring and displaying tabular nutritional data.
 * **Streamlit Secrets** — Secure environmental variable management for the API key.
 
 ### Prompt Engineering Strategy
 
-The app utilizes a **System + Context + Task** prompt structure:
+The app utilizes a structured **System + Context + Task** prompt architecture:
 
 ```text
-System: You are CoachBot AI, an expert, encouraging youth sports coach. Prioritize safety...
-Context: Athlete: 16yo Football Midfielder. Injury: Recovering from torn ACL. Goal: Build Stamina...
-Task: Provide a Safe Recovery Training Schedule. Use clear markdown formatting...
+System: You are the NextGen Sports Lab AI, an expert, encouraging youth sports coach. Prioritize safety...
+Context: Athlete: 16yo Football Midfielder. Injury: Recovering from torn ACL. Goal: Build Stamina. Training Style: Bodyweight.
+Task: Create a safe recovery training schedule for an athlete with: Recovering from torn ACL. Use clear markdown formatting...
 
 ```
 
-This strict structure ensures the Gemini model rarely hallucinates and always factors in the athlete's limitations.
+This strict dynamic structure ensures the Gemini model rarely hallucinates and always factors in the athlete's exact limitations.
 
 ---
 
 ## 📁 Project Structure
 
 ```text
-IDAI103-Student_id-studentname/
+IDAI103-1000442-ZENE-SOPHIE-ANAND-SA/
 │
 ├── app.py                  # Main Streamlit application and UI logic
 ├── requirements.txt        # Python dependencies (streamlit, google-generativeai, pandas)
@@ -131,7 +126,7 @@ Analyzed the specific needs of youth athletes across various sports. Researched 
 
 ### 🧮 Stage 2: Model Integration & Tuning
 
-Configured the Google Gemini 1.5 Pro API. Experimented with hyperparameter tuning:
+Configured the Google Gemini API. Experimented with hyperparameter tuning:
 
 * **Temperature (0.3 - 0.4):** Found to be the optimal sweet spot. It keeps the AI conservative and safe regarding physical exercises while allowing enough creativity for tactical advice.
 * **Top P (0.9):** Allows for a natural, encouraging coaching vocabulary.
@@ -157,8 +152,8 @@ Secured the API key using `st.secrets` locally, pushed the repository to GitHub,
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/YourUsername/IDAI103-Student_id-studentname.git
-cd IDAI103-Student_id-studentname
+git clone [https://github.com/zeneanand/IDAI103-1000442-ZENE-SOPHIE-ANAND-SA.git](https://github.com/zeneanand/IDAI103-1000442-ZENE-SOPHIE-ANAND-SA.git)
+cd IDAI103-1000442-ZENE-SOPHIE-ANAND-SA
 
 ```
 
@@ -191,18 +186,21 @@ streamlit run app.py
 3. Click **"New app"** and select your GitHub repository.
 4. Set the main file path to: `app.py`.
 5. Go to **Advanced settings → Secrets** and paste your API key:
+
 ```toml
 GEMINI_API_KEY = "your-api-key-here"
 
 ```
 
-
 6. Click **Deploy**.
 
-🌱 Ethical & Social Considerations
-Safety & Health: CoachBot AI is programmed to include disclaimers and prioritize safety, but it explicitly states that AI advice should not replace professional medical clearance, especially regarding severe injuries.
+---
 
-Inclusivity: By removing the financial barrier to personalized sports science, this app promotes inclusive sports excellence for youth in low-income or rural areas.
+## 🌱 Ethical & Social Considerations
 
-Data Privacy: The application does not utilize a backend database. All user inputs (injuries, ages, diets) are ephemeral and wiped the moment the browser window is closed.
+* **Safety & Health:** NextGen Sports Lab is programmed to include disclaimers and prioritize safety, but it explicitly states that AI advice should not replace professional medical clearance, especially regarding severe injuries.
+* **Inclusivity:** By removing the financial barrier to personalized sports science, this app promotes inclusive sports excellence for youth in low-income or rural areas.
+* **Data Privacy:** The application does not utilize a backend database. All user inputs (injuries, ages, diets) are ephemeral and wiped the moment the browser window is closed.
+
+```
 
