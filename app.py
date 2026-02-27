@@ -6,7 +6,7 @@ import time
 # ==========================================
 # 1. PAGE CONFIGURATION & VIBRANT CSS
 # ==========================================
-st.set_page_config(page_title="CoachBot AI | NextGen", page_icon="⚡", layout="wide")
+st.set_page_config(page_title="NextGen Sports Lab", page_icon="⚡", layout="wide")
 
 # Visual upgrade using Custom CSS
 st.markdown("""
@@ -125,7 +125,6 @@ st.sidebar.header("🔐 Authentication")
 try:
     api_key = st.secrets["GEMINI_API_KEY"]
     genai.configure(api_key=api_key)
-    # Using your requested model
     model = genai.GenerativeModel('gemini-3-flash-preview')
     st.sidebar.success("✅ API Key Loaded Securely")
 except KeyError:
@@ -148,7 +147,6 @@ with tab1:
     with st.container():
         c1, c2, c3 = st.columns(3)
         with c1:
-            # Changed Primary Sport back to a selectbox with a comprehensive list
             sport = st.selectbox("Primary Sport 🏀", [
                 "Football", "Cricket", "Basketball", "Athletics", 
                 "Tennis", "Swimming", "Gymnastics", "Rugby", "Hockey", "Other"
@@ -159,7 +157,7 @@ with tab1:
             intensity = st.slider("Target Intensity 🔥 (1-10)", 1, 10, 6)
             training_pref = st.text_input("Training Preference 🏋️", placeholder="e.g., Bodyweight only, High-intensity")
         with c3:
-            goal = st.text_input("Desired Goal 🏆", placeholder="e.g., Build Stamina, Post-injury rehab")
+            goal = st.text_input("Desired Goal 🏆", placeholder="e.g., Build Stamina, Improve passing accuracy")
             diet = st.text_input("Dietary Needs 🥗", placeholder="e.g., Vegan, Gluten-Free, No restrictions")
 
     # PROMINENT PROBLEM/INJURY BOX
@@ -173,13 +171,18 @@ with tab1:
 with tab2:
     st.subheader("🧠 Request AI Coaching")
     
-    # The text inside this selectbox is white based on the CSS
+    # Updated the dropdown list to include the exact required prompts
     feature = st.selectbox("Select Coaching Module 🛠️:", [
-        "1. Full-Body Workout Plan", "2. Safe Recovery Training Schedule", 
-        "3. Tactical Coaching Tips", "4. Nutrition & Meal Guide", 
-        "5. Warm-up & Cooldown Routine", "6. Pre-Match Mental Visualization", 
-        "7. Hydration & Electrolyte Strategy", "8. Positional Decision-Making Drills", 
-        "9. Sleep & Recovery Optimization", "10. Off-Season Conditioning Plan"
+        "1. Generate a full-body workout plan for a [position] in [sport].",
+        "2. Create a safe recovery training schedule for an athlete with [injury].",
+        "3. Provide tactical coaching tips to improve [skill] in [sport].",
+        "4. Suggest a week-long nutrition guide for a [age]-year-old athlete following a [diet type].",
+        "5. Generate a personalized warm-up and cooldown routine for [sport and position].",
+        "6. Pre-Match Mental Visualization Script",
+        "7. Hydration & Electrolyte Strategy",
+        "8. Positional Decision-Making Drills",
+        "9. Sleep & Recovery Optimization",
+        "10. Off-Season Conditioning Plan"
     ])
 
     if st.button("🚀 Generate My Personalized Plan"):
@@ -191,15 +194,31 @@ with tab2:
         elif not problem_injury.strip():
             st.warning("Please enter your current problem or injury in the 'Athlete Setup' tab so we can ensure safe advice.")
         else:
+            # Dynamic Prompt Formatting: Replacing brackets with actual user inputs
+            if feature.startswith("1."):
+                task_instruction = f"Generate a full-body workout plan for a {position} in {sport}."
+            elif feature.startswith("2."):
+                task_instruction = f"Create a safe recovery training schedule for an athlete with: {problem_injury}."
+            elif feature.startswith("3."):
+                task_instruction = f"Provide tactical coaching tips to improve {goal} in {sport}."
+            elif feature.startswith("4."):
+                task_instruction = f"Suggest a week-long nutrition guide for a {age}-year-old athlete following a {diet} diet."
+            elif feature.startswith("5."):
+                task_instruction = f"Generate a personalized warm-up and cooldown routine for a {sport} {position}."
+            else:
+                task_instruction = f"Provide a detailed plan for: {feature}"
+
             system_prompt = "You are CoachBot AI, an expert, encouraging youth sports coach. Prioritize safety and injury prevention."
             user_context = f"Athlete: {age}yo {sport} {position}. Problem/Injury: {problem_injury}. Goal: {goal}. Diet: {diet}. Intensity: {intensity}/10. Training Style Preference: {training_pref}."
-            task = f"Task: {feature}. Use clear markdown formatting, emojis, and bullet points."
             
-            with st.spinner(f"CoachBot is designing your {feature.lower()}..."):
+            # Combine everything for the AI
+            final_prompt = f"Task: {task_instruction}. Use clear markdown formatting, emojis, and bullet points."
+            
+            with st.spinner("CoachBot is designing your personalized plan..."):
                 try:
                     time.sleep(1) # Rate limit protection
                     response = model.generate_content(
-                        f"{system_prompt}\n\n{user_context}\n\n{task}",
+                        f"{system_prompt}\n\n{user_context}\n\n{final_prompt}",
                         generation_config=genai.types.GenerationConfig(temperature=temperature, top_p=top_p)
                     )
                     
@@ -209,7 +228,8 @@ with tab2:
                     
                     with st.expander("🔍 View Raw Generation Logs (For Assessor)"):
                         st.write(f"**Temperature:** {temperature} | **Top_P:** {top_p}")
-                        st.code(f"{system_prompt}\n\n{user_context}\n\n{task}")
+                        st.write("**Exact Prompt Sent to Gemini:**")
+                        st.code(f"{system_prompt}\n\n{user_context}\n\n{final_prompt}")
                         
                 except Exception as e:
                     st.error(f"Generation Failed: {e}")
@@ -229,4 +249,3 @@ with tab3:
         "Carbs (g)": [250, 300, 250, 320, 280]
     })
     st.dataframe(macro_data, use_container_width=True, hide_index=True)
-    
