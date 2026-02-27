@@ -115,7 +115,7 @@ col_logo, col_title = st.columns([1, 8])
 with col_logo:
     st.image("https://cdn-icons-png.flaticon.com/512/3043/3043888.png", width=80) 
 with col_title:
-    st.title("⚡ CoachBot AI: NextGen Virtual Coach")
+    st.title("⚡ NextGen Sports Lab: Virtual Coach")
     st.markdown("*Empowering youth athletes with AI-driven, personalized sports science.*")
 
 st.sidebar.image("https://cdn-icons-png.flaticon.com/512/2112/2112281.png", width=150)
@@ -131,7 +131,7 @@ except KeyError:
     st.sidebar.error("❌ API Key missing! Please configure Streamlit Secrets.")
     api_key = None
 
-st.sidebar.header("⚙️ CoachBot Brain Tuning")
+st.sidebar.header("⚙️ NextGen Brain Tuning")
 temperature = st.sidebar.slider("Creativity (Temperature)", 0.0, 1.0, 0.4, 0.1)
 top_p = st.sidebar.slider("Focus (Top P)", 0.0, 1.0, 0.9, 0.1)
 
@@ -208,13 +208,13 @@ with tab2:
             else:
                 task_instruction = f"Provide a detailed plan for: {feature}"
 
-            system_prompt = "You are CoachBot AI, an expert, encouraging youth sports coach. Prioritize safety and injury prevention."
+            system_prompt = "You are the NextGen Sports Lab AI, an expert, encouraging youth sports coach. Prioritize safety and injury prevention."
             user_context = f"Athlete: {age}yo {sport} {position}. Problem/Injury: {problem_injury}. Goal: {goal}. Diet: {diet}. Intensity: {intensity}/10. Training Style Preference: {training_pref}."
             
             # Combine everything for the AI
             final_prompt = f"Task: {task_instruction}. Use clear markdown formatting, emojis, and bullet points."
             
-            with st.spinner("CoachBot is designing your personalized plan..."):
+            with st.spinner("NextGen Sports Lab is designing your personalized plan..."):
                 try:
                     time.sleep(1) # Rate limit protection
                     response = model.generate_content(
