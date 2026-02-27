@@ -194,11 +194,12 @@ with tab2:
     if st.button("🚀 Generate My Personalized Plan"):
         if not api_key:
             st.error("Cannot generate plan: API key is missing from secrets.")
-        elif not goal.strip() or not diet.strip() or not training_pref.strip():
-            st.warning("Please fill out your Training Preference, Desired Goal, and Dietary Needs in the Athlete Setup tab.")
+        elif not goal.strip() or not diet.strip() or not training_pref.strip() or not position.strip():
+            st.warning("Please fill out your Position, Training Preference, Desired Goal, and Dietary Needs in the Athlete Setup tab.")
         elif not problem_injury.strip():
             st.warning("Please enter your current problem or injury in the 'Athlete Setup' tab so we can ensure safe advice.")
         else:
+            # Dynamic Prompt Formatting: Replacing brackets with actual user inputs
             if feature.startswith("1."):
                 task_instruction = f"Generate a full-body workout plan for a {position} in {sport}."
             elif feature.startswith("2."):
